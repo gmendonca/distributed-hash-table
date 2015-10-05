@@ -3,6 +3,7 @@ package node;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 
 import util.Util;
@@ -36,8 +37,15 @@ public class Client extends Thread{
     	
     	ArrayList<String> fileNames = Util.listFilesForFolder(folder);
     	
-    	Peer p = new Peer(id, dir, fileNames, fileNames.size(), address, port);
-		p.setHashtable(Util.readHashtableFromFile());
+    	Peer peer = new Peer(id, dir, fileNames, fileNames.size(), address, port);
+    	
+    	ServerSocket serverSocket = new ServerSocket(port);
+    	
+    	Server server = new Server(serverSocket, peer);
+    	server.start();
+    	
+    	
+    	
 		
 		
 	}

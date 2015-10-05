@@ -20,9 +20,11 @@ public class Server extends Thread{
 			Socket socket = null;
 			try {
 				socket = serverSocket.accept();
-			} catch (IOException e) { }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			synchronized(peer.getPeerQueue()){
-				peer.getPeerQueue().add();
+				peer.addToPeerQueue(new Connection(socket,"dir"));
 			}
 			/*try {
 				Thread.sleep(2);
