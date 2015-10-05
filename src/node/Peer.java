@@ -1,11 +1,9 @@
 package node;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 import util.PeerQueue;
-import util.Util;
 
 
 public class Peer {
@@ -17,10 +15,10 @@ public class Peer {
 	private String address;
 	private int port;
 	private PeerQueue<Peer> peerQueue;
-	public Hashtable<String, Peer> hashtable;
+	private Hashtable<String, Peer> hashtable;
 	
 	
-	public Peer(String directory, ArrayList<String> fileNames, int numFiles, String address, int port) throws IOException{
+	public Peer(int id, String directory, ArrayList<String> fileNames, int numFiles, String address, int port) throws IOException{
 		this.directory = directory;
 		this.fileNames = fileNames;
 		this.numFiles = numFiles;
@@ -59,6 +57,10 @@ public class Peer {
 			return peerQueue;
 		}
 		
+		public Hashtable<String, Peer> getHashtable(){
+			return hashtable;
+		}
+		
 		//setters
 		public void setPeerId(int peerId){
 			this.peerId = peerId;
@@ -88,14 +90,14 @@ public class Peer {
 			this.port = port;
 		}
 		
-		public void getPeerQueue(PeerQueue<Peer> peerQueue){
+		public void setPeerQueue(PeerQueue<Peer> peerQueue){
 			this.peerQueue = peerQueue;
 		}
 		
-		public static void main(String[] args){
-			Peer p = new Peer(address, fileNames, numFiles, address, numFiles);
-			p.hashtable = Util.readHashtableFromFile();
+		public void setHashtable(Hashtable<String, Peer> hashtable){
+			this.hashtable = hashtable;
 		}
+		
 }
 
 	
