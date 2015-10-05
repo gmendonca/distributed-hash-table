@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Hashtable;
+
+import node.Peer;
 
 
 public class Util {
@@ -53,4 +56,10 @@ public class Util {
 		  }
 		  return sum;
 		}
+	
+	public static Hashtable<String,Peer> readHashtableFromFile() throws IOException{
+		
+		return null;
+		
+	}
 }
