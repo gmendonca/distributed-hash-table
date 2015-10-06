@@ -1,4 +1,6 @@
 package node;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Hashtable;
@@ -81,9 +83,38 @@ public class Peer {
 		return peerQueue.poll();
 	}
 	
-	//
+	//put
+	public Boolean put(String key, String value){
+		return false;
+	}
 	
+	//get
+	public String get(String key) {
+		String value = null;
+		
+		Peer p = hashtable.get(key);
+		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+    	
+    	//Option to look for a file
+    	dOut.writeByte(1);
+    	
+    	
+    	//Reading the peer Address that has the file
+    	DataInputStream dIn = new DataInputStream(socket.getInputStream());
+    	byte found = dIn.readByte();
+    	
+    	
+    	
+    	dOut.close();
+    	dIn.close();
+    	socket.close();
+		return value;
+	}
 	
+	//delete
+	public Boolean delete(String key){
+		return false;
+	}
 		
 }
 

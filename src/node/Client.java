@@ -43,7 +43,6 @@ public class Client extends Thread{
     	
     	
     	int option;
-		String [] peerAddress = new String[0];
 		
 		Scanner scanner = new Scanner(System.in);
     	while(true){
