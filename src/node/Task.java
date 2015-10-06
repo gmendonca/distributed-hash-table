@@ -2,7 +2,6 @@ package node;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 
 public class Task extends Thread{
@@ -43,6 +42,7 @@ public class Task extends Thread{
 					while (dIn.read(buffer) != -1) { }
 					Peer p = peer.deserialize(buffer);
 					//TODO:add to hash table
+
 					socket.close();
 				default:
 					System.out.println("Not an option");

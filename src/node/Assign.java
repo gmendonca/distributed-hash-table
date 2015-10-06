@@ -4,12 +4,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class Process extends Thread{
+public class Assign extends Thread{
 	
 	private int numThreads = 4;
 	private Peer peer;
 	
-	public Process(Peer peer){
+	public Assign(Peer peer){
 		this.peer = peer;
 	}
 	
