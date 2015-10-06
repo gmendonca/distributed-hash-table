@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.util.ArrayList;
-
-import util.Util;
 
 public class Client extends Thread{
 	
@@ -35,9 +32,8 @@ public class Client extends Thread{
     		System.out.println("Put a valid port number");
     	}
     	
-    	ArrayList<String> fileNames = Util.listFilesForFolder(folder);
     	
-    	Peer peer = new Peer(id, dir, fileNames, fileNames.size(), address, port);
+    	Peer peer = new Peer(id, address, port);
     	
     	ServerSocket serverSocket = new ServerSocket(port);
     	
