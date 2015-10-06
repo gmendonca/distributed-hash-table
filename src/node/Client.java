@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.util.Scanner;
 
 public class Client extends Thread{
 	
@@ -41,7 +42,21 @@ public class Client extends Thread{
     	server.start();
     	
     	
-    	
+    	int option;
+		String [] peerAddress = new String[0];
+		
+		Scanner scanner = new Scanner(System.in);
+    	while(true){
+    		System.out.println("\n\nSelect the option:");
+    		System.out.println("1 - Lookup for a file");
+    		System.out.println("2 - Download file");
+    		
+    		option = scanner.nextInt();
+    		if(option == 1){
+    			
+    		}
+			scanner.close();
+    	}
 		
 		
 	}

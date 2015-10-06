@@ -15,17 +15,6 @@ import node.Peer;
 
 public class Util {
 	
-	public static ArrayList<String> listFilesForFolder(final File folder) {
-		
-		ArrayList<String> fileNames = new ArrayList<String>();
-	    
-		for (final File fileEntry : folder.listFiles()) 
-	    	fileNames.add(fileEntry.getName());
-		
-		return fileNames;
-
-	}
-	
 	public static void copy(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int count = 0;
@@ -45,17 +34,6 @@ public class Util {
     	BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
     	return br.readLine();
 	}
-	
-	public static double calculateAverage(ArrayList<Long> times) {
-		  Long sum = 0L;
-		  if(!times.isEmpty()) {
-		    for (Long time : times) {
-		        sum += time;
-		    }
-		    return sum.doubleValue() / times.size();
-		  }
-		  return sum;
-		}
 	
 	public static Hashtable<String,Peer> readHashtableFromFile() throws IOException{
 		
