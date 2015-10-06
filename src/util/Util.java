@@ -34,7 +34,7 @@ public class Util {
 	}
 	
 	public static Hashtable<String,Peer> readHashtableFromFile() throws IOException{
-		
+		//read from a JSON
 		return null;
 		
 	}

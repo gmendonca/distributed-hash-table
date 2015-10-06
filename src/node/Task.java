@@ -36,6 +36,10 @@ public class Task extends Thread{
 					//delete
 					socket.close();
 					break;
+				case 3:
+					//update
+					
+					socket.close();
 				default:
 					System.out.println("Not an option");
 				

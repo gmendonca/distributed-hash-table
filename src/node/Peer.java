@@ -1,7 +1,11 @@
 package node;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -16,7 +20,7 @@ public class Peer {
 	private String address;
 	private int port;
 	private PeerQueue<Socket> peerQueue;
-	public Hashtable<String, Peer> hashtable;
+	private Hashtable<String, Peer> hashtable;
 	private ArrayList<Peer> peerList;
 	
 	private DistributedHashtable distributedHashtable;
@@ -85,6 +89,23 @@ public class Peer {
 	
 	public Socket pollPeerQueue(){
 		return peerQueue.poll();
+	}
+	
+	//serialize
+	
+	public byte[] serialize(Peer peer) throws IOException{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
+		oos.writeObject(peer);
+		return baos.toByteArray();
+	}
+	
+	//deserialize
+	
+	public Peer deserialize(byte[] bytes) throws Exception{
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		ObjectInputStream ois = new ObjectInputStream(bais);
+		return (Peer)ois.readObject();
 	}
 	
 	//put
