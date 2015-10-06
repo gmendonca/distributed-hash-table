@@ -3,6 +3,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import util.PeerQueue;
@@ -15,7 +16,10 @@ public class Peer {
 	private String address;
 	private int port;
 	private PeerQueue<Socket> peerQueue;
-	private Hashtable<String, Peer> hashtable;
+	public Hashtable<String, Peer> hashtable;
+	private ArrayList<Peer> peerList;
+	
+	private DistributedHashtable distributedHashtable;
 	
 	
 	public Peer(int peerId, String address, int port) throws IOException{
@@ -89,10 +93,15 @@ public class Peer {
 	}
 	
 	//get
-	public String get(String key) {
+	public String get(String key) throws IOException {
 		String value = null;
 		
 		Peer p = hashtable.get(key);
+		
+		if(p == null)
+			return null;
+		
+		Socket socket = new Socket(p.address, p.port);
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
     	
     	//Option to look for a file
