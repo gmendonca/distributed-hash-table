@@ -1,4 +1,5 @@
 package node;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -19,10 +20,11 @@ public class Peer {
 	private int peerId;
 	private String address;
 	private int port;
+	
 	private PeerQueue<Socket> peerQueue;
+	
 	private Hashtable<String, Peer> hashtable;
 	private ArrayList<Peer> peerList;
-	
 	private DistributedHashtable distributedHashtable;
 	
 	
