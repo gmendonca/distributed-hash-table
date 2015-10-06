@@ -24,7 +24,7 @@ public class Server extends Thread{
 				e.printStackTrace();
 			}
 			synchronized(peer.getPeerQueue()){
-				peer.addToPeerQueue(new Connection(socket,"dir"));
+				peer.addToPeerQueue(socket);
 			}
 			/*try {
 				Thread.sleep(2);

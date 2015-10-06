@@ -1,5 +1,6 @@
 package node;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -15,7 +16,7 @@ public class Peer {
 	private String directory;
 	private String address;
 	private int port;
-	private PeerQueue<Connection> peerQueue;
+	private PeerQueue<Socket> peerQueue;
 	private Hashtable<String, Peer> hashtable;
 	
 	
@@ -27,7 +28,7 @@ public class Peer {
 		this.address = address;
 		this.port = port;
 		
-		peerQueue = new PeerQueue<Connection>();
+		peerQueue = new PeerQueue<Socket>();
 		hashtable = Util.readHashtableFromFile();
 	}
 	
@@ -56,7 +57,7 @@ public class Peer {
 			return port;
 		}
 		
-		public PeerQueue<Connection> getPeerQueue(){
+		public PeerQueue<Socket> getPeerQueue(){
 			return peerQueue;
 		}
 		
@@ -93,7 +94,7 @@ public class Peer {
 			this.port = port;
 		}
 		
-		public void setPeerQueue(PeerQueue<Connection> peerQueue){
+		public void setPeerQueue(PeerQueue<Socket> peerQueue){
 			this.peerQueue = peerQueue;
 		}
 		
@@ -101,16 +102,16 @@ public class Peer {
 			this.hashtable = hashtable;
 		}
 		
-		public void addToPeerQueue(Connection conn){
-			peerQueue.add(conn);
+		public void addToPeerQueue(Socket sock){
+			peerQueue.add(sock);
 		}
 		
-		public Connection peekPeerQueue(Connection conn){
+		public Socket peekPeerQueue(){
 			return peerQueue.peek();
 		}
 		
-		public void pollPeerQueue(Connection conn){
-			peerQueue.add(conn);
+		public Socket pollPeerQueue(){
+			return peerQueue.poll();
 		}
 		
 }
