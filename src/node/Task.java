@@ -38,14 +38,18 @@ public class Task extends Thread{
 					break;
 				case 3:
 					//update
-					
+					dIn.readUTF();
+					byte[] buffer = new byte[1024];
+					while (dIn.read(buffer) != -1) { }
+					Peer p = peer.deserialize(buffer);
+					//TODO:add to hash table
 					socket.close();
 				default:
 					System.out.println("Not an option");
 				
 			}
-		}catch (IOException ioe){
-			ioe.printStackTrace();
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 		
 	}
