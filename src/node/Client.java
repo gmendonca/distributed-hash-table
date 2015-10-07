@@ -16,10 +16,9 @@ public class Client extends Thread{
 	
 	private static ArrayList<String> peerList;
 	//put
-	public static Boolean put(String key, String value) throws Exception{
+	public static Boolean put(String key, String value, int pId) throws Exception{
 		if(key.length() > 24) return false;
 		if(value.length() > 1000) return false;
-		int pId = DistributedHashtable.hash(key, peerList.size());
 			
 		String[] peerAddress = peerList.get(pId).split(":");
 		Socket socket = new Socket(peerAddress[0], Integer.parseInt(peerAddress[1]));
@@ -43,9 +42,8 @@ public class Client extends Thread{
 	}
 		
 	//get
-	public static String get(String key) throws IOException {
+	public static String get(String key, int pId) throws IOException {
 		if(key.length() > 24) return null;
-		int pId = DistributedHashtable.hash(key, peerList.size());
 			
 		String[] peerAddress = peerList.get(pId).split(":");
 		Socket socket = new Socket(peerAddress[0], Integer.parseInt(peerAddress[1]));
@@ -68,7 +66,7 @@ public class Client extends Thread{
 	}
 		
 	//delete
-	public static Boolean delete(String key){
+	public static Boolean delete(String key, int pId){
 		return false;
 	}
 	
@@ -108,9 +106,9 @@ public class Client extends Thread{
     	server.start();
     	
     	
-    	int option;
-    	String key, value;
-    	Boolean result;
+    	int option, pId;
+    	String key = null, value = null;
+    	Boolean result = false;
 		
 		Scanner scanner = new Scanner(System.in);
     	while(true){
@@ -121,12 +119,42 @@ public class Client extends Thread{
     		
     		option = scanner.nextInt();
     		if(option == 1){
+    			
     			System.out.print("key: ");
     			key = scanner.nextLine();
     			System.out.print("value: ");
     			value = scanner.nextLine();
-    			result = put(key, value);
+    			
+    			pId = DistributedHashtable.hash(key, peerList.size());
+    			
+    			try {
+    				result = put(key, value, pId);
+    			}catch (Exception e){
+    				System.out.println("Couldn't put the key-value pair in the system.");
+    			}
+    			
+    			System.out.println(result 
+    					? "Key " + key + " inserted at Peer " + pId + "(" + peerList.get(pId) + ")." 
+    					: "Something went wrong and it couldn'd insert the key-value pair."
+    					);
+    			
     		} else if(option == 2){
+    			
+    			System.out.print("key: ");
+    			key = scanner.nextLine();
+    			
+    			pId = DistributedHashtable.hash(key, peerList.size());
+    			
+    			try {
+    				value = get(key, pId);
+    			}catch (Exception e){
+    				System.out.println("Something went wrong and it couldn'd find the value.");
+    			}
+    			
+    			System.out.println((value != null)
+    					? "Key " + key + " is at Peer " + pId + "(" + peerList.get(pId) + ") and has value " + value + "." 
+    					: "Value not found."
+    					);
     			
     		}else if(option == 3){
     			
