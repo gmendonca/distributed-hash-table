@@ -44,7 +44,27 @@ public class Client extends Thread{
 		
 	//get
 	public static String get(String key) throws IOException {
-		return null;
+		if(key.length() > 24) return null;
+		int pId = DistributedHashtable.hash(key, peerList.size());
+			
+		String[] peerAddress = peerList.get(pId).split(":");
+		Socket socket = new Socket(peerAddress[0], Integer.parseInt(peerAddress[1]));
+		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+			
+		//get option
+		dOut.writeByte(1);
+		dOut.flush();
+			
+		//key
+		dOut.writeUTF(key);
+		dOut.flush();
+			
+		DataInputStream dIn = new DataInputStream(socket.getInputStream());
+		String value = dIn.readUTF();
+			
+		socket.close();
+			
+		return value;
 	}
 		
 	//delete

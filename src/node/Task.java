@@ -21,21 +21,31 @@ public class Task extends Thread{
 			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
 			byte option = dIn.readByte();
+			String key, value;
 			
 			switch(option){
 				case 0:
-					String key = dIn.readUTF();
-					String value = dIn.readUTF();
+					key = dIn.readUTF();
+					value = dIn.readUTF();
+					//TODO: check if this is not to quickly
 					dOut.writeBoolean(peer.put(key, value));
 					dOut.flush();
 					socket.close();
 					break;
 				case 1:
 					//get
+					key = dIn.readUTF();
+					//TODO: check if this is not to quickly
+					dOut.writeUTF(peer.get(key));
+					dOut.flush();
 					socket.close();
 					break;
 				case 2:
 					//delete
+					key = dIn.readUTF();
+					//TODO: check if this is not to quickly
+					dOut.writeBoolean(peer.delete(key));
+					dOut.flush();
 					socket.close();
 					break;
 				default:
