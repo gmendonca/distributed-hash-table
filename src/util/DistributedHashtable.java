@@ -10,8 +10,11 @@ public class DistributedHashtable {
 		return null;
 	}
 	
-	public static void hash(){
-		
+	public static int hash(String key, int numPeers){
+		int sum = 0;
+		for(int i = 0; i < key.length(); i++)
+			sum += key.charAt(i);
+			
+		return sum%numPeers;
 	}
-
 }
