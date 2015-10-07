@@ -26,7 +26,7 @@ public class Task extends Thread{
 				case 0:
 					String key = dIn.readUTF();
 					String value = dIn.readUTF();
-					dOut.writeByte(peer.put(key, value) ? 1 : 0);
+					dOut.writeBoolean(peer.put(key, value));
 					dOut.flush();
 					socket.close();
 					break;
