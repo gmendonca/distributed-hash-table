@@ -109,20 +109,33 @@ public class Client extends Thread{
     	
     	
     	int option;
+    	String key, value;
+    	Boolean result;
 		
 		Scanner scanner = new Scanner(System.in);
     	while(true){
     		System.out.println("\n\nSelect the option:");
-    		System.out.println("1 - Lookup for a file");
-    		System.out.println("2 - Download file");
+    		System.out.println("\t1 - Put");
+    		System.out.println("\t2 - Get");
+    		System.out.println("\t3 - Del");
     		
     		option = scanner.nextInt();
     		if(option == 1){
+    			System.out.print("key: ");
+    			key = scanner.nextLine();
+    			System.out.print("value: ");
+    			value = scanner.nextLine();
+    			result = put(key, value);
+    		} else if(option == 2){
     			
+    		}else if(option == 3){
+    			
+    		}else{
+    			System.out.println("Option not valid");
+    			continue;
     		}
-			scanner.close();
+    		scanner.close();
     	}
-		
 		
 	}
 }
