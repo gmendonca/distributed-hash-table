@@ -2,8 +2,6 @@ package node;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import util.PeerQueue;
-import util.Util;
 
 
 public class Peer {
@@ -23,9 +20,8 @@ public class Peer {
 	
 	private PeerQueue<Socket> peerQueue;
 	
-	private Hashtable<String, Peer> hashtable;
+	private Hashtable<String, String> hashtable;
 	private ArrayList<Peer> peerList;
-	private DistributedHashtable distributedHashtable;
 	
 	
 	public Peer(int peerId, String address, int port) throws IOException{
@@ -34,7 +30,7 @@ public class Peer {
 		this.port = port;
 		
 		peerQueue = new PeerQueue<Socket>();
-		hashtable = Util.readHashtableFromFile();
+		hashtable = new Hashtable<String, String>();
 	}
 	
 	//getters
@@ -54,7 +50,7 @@ public class Peer {
 		return peerQueue;
 	}
 	
-	public Hashtable<String, Peer> getHashtable(){
+	public Hashtable<String, String> getHashtable(){
 		return hashtable;
 	}
 	
@@ -75,7 +71,7 @@ public class Peer {
 		this.peerQueue = peerQueue;
 	}
 	
-	public void setHashtable(Hashtable<String, Peer> hashtable){
+	public void setHashtable(Hashtable<String, String> hashtable){
 		this.hashtable = hashtable;
 	}
 	
@@ -117,30 +113,7 @@ public class Peer {
 	
 	//get
 	public String get(String key) throws IOException {
-		String value = null;
-		
-		Peer p = hashtable.get(key);
-		
-		if(p == null)
-			return null;
-		
-		Socket socket = new Socket(p.address, p.port);
-		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-    	
-    	//Option to look for a file
-    	dOut.writeByte(1);
-    	
-    	
-    	//Reading the peer Address that has the file
-    	DataInputStream dIn = new DataInputStream(socket.getInputStream());
-    	byte found = dIn.readByte();
-    	
-    	
-    	
-    	dOut.close();
-    	dIn.close();
-    	socket.close();
-		return value;
+		return null;
 	}
 	
 	//delete

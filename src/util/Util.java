@@ -32,10 +32,4 @@ public class Util {
     	BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
     	return br.readLine();
 	}
-	
-	public static Hashtable<String,Peer> readHashtableFromFile() throws IOException{
-		//read from a JSON
-		return null;
-		
-	}
 }
