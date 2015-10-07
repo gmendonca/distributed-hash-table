@@ -24,7 +24,9 @@ public class Task extends Thread{
 			
 			switch(option){
 				case 0:
-					//put
+					String key = dIn.readUTF();
+					String value = dIn.readUTF();
+					//peer.put(key, value);
 					socket.close();
 					break;
 				case 1:

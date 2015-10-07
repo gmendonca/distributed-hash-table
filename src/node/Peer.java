@@ -1,14 +1,11 @@
 package node;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import util.DistributedHashtable;
 import util.PeerQueue;
 
 
@@ -21,7 +18,7 @@ public class Peer {
 	private PeerQueue<Socket> peerQueue;
 	
 	private Hashtable<String, String> hashtable;
-	private ArrayList<Peer> peerList;
+	private ArrayList<String> peerList;
 	
 	
 	public Peer(int peerId, String address, int port) throws IOException{
@@ -31,6 +28,7 @@ public class Peer {
 		
 		peerQueue = new PeerQueue<Socket>();
 		hashtable = new Hashtable<String, String>();
+		peerList = DistributedHashtable.readConfigFile();
 	}
 	
 	//getters
@@ -52,6 +50,9 @@ public class Peer {
 	
 	public Hashtable<String, String> getHashtable(){
 		return hashtable;
+	}
+	public ArrayList<String> getPeerList(){
+		return peerList;
 	}
 	
 	//setters
@@ -89,25 +90,8 @@ public class Peer {
 		return peerQueue.poll();
 	}
 	
-	//serialize
-	
-	public byte[] serialize(Peer peer) throws IOException{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		oos.writeObject(peer);
-		return baos.toByteArray();
-	}
-	
-	//deserialize
-	
-	public Peer deserialize(byte[] bytes) throws Exception{
-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-		ObjectInputStream ois = new ObjectInputStream(bais);
-		return (Peer)ois.readObject();
-	}
-	
 	//put
-	public Boolean put(String key, String value){
+	public Boolean put(String key, String value) throws Exception{
 		return false;
 	}
 	
