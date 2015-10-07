@@ -66,8 +66,27 @@ public class Client extends Thread{
 	}
 		
 	//delete
-	public static Boolean delete(String key, int pId){
-		return false;
+	public static Boolean delete(String key, int pId) throws Exception{
+		if(key.length() > 24) return false;
+			
+		String[] peerAddress = peerList.get(pId).split(":");
+		Socket socket = new Socket(peerAddress[0], Integer.parseInt(peerAddress[1]));
+		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+			
+		//put option
+		dOut.writeByte(2);
+		dOut.flush();
+			
+		//key, value
+		dOut.writeUTF(key);
+		dOut.flush();
+			
+		DataInputStream dIn = new DataInputStream(socket.getInputStream());
+		boolean ack = dIn.readBoolean();
+			
+		socket.close();
+			
+		return ack;
 	}
 	
 	public static void main(String[] args) throws IOException{
@@ -117,53 +136,73 @@ public class Client extends Thread{
     		System.out.println("\t2 - Get");
     		System.out.println("\t3 - Del");
     		
-    		option = scanner.nextInt();
-    		if(option == 1){
-    			
-    			System.out.print("key: ");
-    			key = scanner.nextLine();
-    			System.out.print("value: ");
-    			value = scanner.nextLine();
-    			
-    			pId = DistributedHashtable.hash(key, peerList.size());
-    			
-    			try {
-    				result = put(key, value, pId);
-    			}catch (Exception e){
-    				System.out.println("Couldn't put the key-value pair in the system.");
-    			}
-    			
-    			System.out.println(result 
-    					? "Key " + key + " inserted at Peer " + pId + "(" + peerList.get(pId) + ")." 
-    					: "Something went wrong and it couldn'd insert the key-value pair."
-    					);
-    			
-    		} else if(option == 2){
-    			
-    			System.out.print("key: ");
-    			key = scanner.nextLine();
-    			
-    			pId = DistributedHashtable.hash(key, peerList.size());
-    			
-    			try {
-    				value = get(key, pId);
-    			}catch (Exception e){
-    				System.out.println("Something went wrong and it couldn'd find the value.");
-    			}
-    			
-    			System.out.println((value != null)
-    					? "Key " + key + " is at Peer " + pId + "(" + peerList.get(pId) + ") and has value " + value + "." 
-    					: "Value not found."
-    					);
-    			
-    		}else if(option == 3){
-    			
-    		}else{
-    			System.out.println("Option not valid");
-    			continue;
+    		try{
+	    		option = scanner.nextInt();
+	    		if(option == 1){
+	    			
+	    			System.out.print("key: ");
+	    			key = scanner.nextLine();
+	    			System.out.print("value: ");
+	    			value = scanner.nextLine();
+	    			
+	    			pId = DistributedHashtable.hash(key, peerList.size());
+	    			
+	    			try {
+	    				result = put(key, value, pId);
+	    			}catch (Exception e){
+	    				System.out.println("Couldn't put the key-value pair in the system.");
+	    			}
+	    			
+	    			System.out.println(result 
+	    					? "Key " + key + " inserted at Peer " + pId + "(" + peerList.get(pId) + ")." 
+	    					: "Something went wrong and it couldn'd insert the key-value pair."
+	    					);
+	    			
+	    		} else if(option == 2){
+	    			
+	    			System.out.print("key: ");
+	    			key = scanner.nextLine();
+	    			
+	    			pId = DistributedHashtable.hash(key, peerList.size());
+	    			
+	    			try {
+	    				value = get(key, pId);
+	    			}catch (Exception e){
+	    				System.out.println("Something went wrong and it couldn'd find the value.");
+	    			}
+	    			
+	    			System.out.println((value != null)
+	    					? "Key " + key + " is at Peer " + pId + "(" + peerList.get(pId) + ") and has value " + value + "." 
+	    					: "Value not found."
+	    					);
+	    			
+	    		}else if(option == 3){
+	    			
+	    			System.out.print("key: ");
+	    			key = scanner.nextLine();
+	    			
+	    			pId = DistributedHashtable.hash(key, peerList.size());
+	    			
+	    			try {
+	    				result = delete(key, pId);
+	    			}catch (Exception e){
+	    				System.out.println("Something went wrong and it couldn'd delete the value.");
+	    			}
+	    			
+	    			System.out.println((value != null)
+	    					? "Key " + key + " was at Peer " + pId + "(" + peerList.get(pId) + ") and now is deleted." 
+	    					: "Key not deleted."
+	    					);
+	    			
+	    		}else{
+	    			System.out.println("Option not valid");
+	    			continue;
+	    		}
+    		} catch (Exception e){
+    			System.out.println("Oops, something went wrong. Closing it!");
+    			break;
     		}
-    		scanner.close();
     	}
-		
+    	scanner.close();
 	}
 }
