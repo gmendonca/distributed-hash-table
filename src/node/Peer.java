@@ -92,17 +92,19 @@ public class Peer {
 	
 	//put
 	public Boolean put(String key, String value) throws Exception{
-		return false;
+		try { hashtable.put(key, value); }catch (Exception e) { return false; }
+		return true;
 	}
 	
 	//get
 	public String get(String key) throws IOException {
-		return null;
+		return hashtable.get(key);
 	}
 	
 	//delete
 	public Boolean delete(String key){
-		return false;
+		try { hashtable.remove(key); }catch (Exception e) { return false; }
+		return true;
 	}
 		
 }
