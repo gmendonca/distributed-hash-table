@@ -2,10 +2,8 @@ package node;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
-import util.DistributedHashtable;
 import util.PeerQueue;
 
 
@@ -18,7 +16,6 @@ public class Peer {
 	private PeerQueue<Socket> peerQueue;
 	
 	private Hashtable<String, String> hashtable;
-	private ArrayList<String> peerList;
 	
 	
 	public Peer(int peerId, String address, int port) throws IOException{
@@ -28,7 +25,6 @@ public class Peer {
 		
 		peerQueue = new PeerQueue<Socket>();
 		hashtable = new Hashtable<String, String>();
-		peerList = DistributedHashtable.readConfigFile();
 	}
 	
 	//getters
@@ -50,9 +46,6 @@ public class Peer {
 	
 	public Hashtable<String, String> getHashtable(){
 		return hashtable;
-	}
-	public ArrayList<String> getPeerList(){
-		return peerList;
 	}
 	
 	//setters

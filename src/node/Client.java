@@ -7,14 +7,16 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import util.DistributedHashtable;
 
 public class Client extends Thread{
 	
+	private static ArrayList<String> peerList;
 	//put
-	public Boolean put(String key, String value) throws Exception{
+	public static Boolean put(String key, String value) throws Exception{
 		if(key.length() > 24) return false;
 		if(value.length() > 1000) return false;
 		int pId = DistributedHashtable.hash(key, peerList.size());
@@ -41,16 +43,18 @@ public class Client extends Thread{
 	}
 		
 	//get
-	public String get(String key) throws IOException {
+	public static String get(String key) throws IOException {
 		return null;
 	}
 		
 	//delete
-	public Boolean delete(String key){
+	public static Boolean delete(String key){
 		return false;
 	}
 	
 	public static void main(String[] args) throws IOException{
+		
+		peerList = DistributedHashtable.readConfigFile();
 		
 		int id = 0;
 		try{
