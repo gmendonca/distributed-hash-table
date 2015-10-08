@@ -23,7 +23,7 @@ public class DistributedHashtable {
 			JSONObject jsonObject = (JSONObject) obj;
 
 			// loop array
-			JSONArray msg = (JSONArray) jsonObject.get("messages");
+			JSONArray msg = (JSONArray) jsonObject.get("peers");
 			Iterator<?> iterator = msg.iterator();
 			
 			while (iterator.hasNext()) {
@@ -32,6 +32,7 @@ public class DistributedHashtable {
 
 		} catch (Exception e){
 			System.out.println("Couldn't read from config file");
+			e.printStackTrace();
 			return null;
 		}
 		
