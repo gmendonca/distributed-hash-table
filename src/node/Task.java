@@ -36,7 +36,8 @@ public class Task extends Thread{
 					//get
 					key = dIn.readUTF();
 					//TODO: check if this is not to quickly
-					dOut.writeUTF(peer.get(key));
+					value = peer.get(key);
+					dOut.writeUTF((value != null) ? value : "");
 					dOut.flush();
 					socket.close();
 					break;

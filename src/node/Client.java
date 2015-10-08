@@ -167,9 +167,10 @@ public class Client extends Thread{
 	    				value = get(key, pId);
 	    			}catch (Exception e){
 	    				System.out.println("Something went wrong and it couldn'd find the value.");
+	    				continue;
 	    			}
 	    			
-	    			System.out.println((value != null)
+	    			System.out.println(!value.equals("")
 	    					? "Key " + key + " is at Peer " + pId + "(" + peerList.get(pId) + ") and has value " + value + "." 
 	    					: "Value not found."
 	    					);
@@ -185,9 +186,10 @@ public class Client extends Thread{
 	    				result = delete(key, pId);
 	    			}catch (Exception e){
 	    				System.out.println("Something went wrong and it couldn'd delete the value.");
+	    				continue;
 	    			}
 	    			
-	    			System.out.println((value != null)
+	    			System.out.println(result
 	    					? "Key " + key + " was at Peer " + pId + "(" + peerList.get(pId) + ") and now is deleted." 
 	    					: "Key not deleted."
 	    					);

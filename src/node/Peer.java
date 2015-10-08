@@ -96,7 +96,12 @@ public class Peer {
 	
 	//delete
 	public Boolean delete(String key){
-		try { hashtable.remove(key); }catch (Exception e) { return false; }
+		if(!hashtable.containsKey(key)) return false;
+		
+		try { 
+			hashtable.remove(key); 
+			} catch (Exception e) { return false; }
+		
 		return true;
 	}
 		
