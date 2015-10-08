@@ -33,3 +33,5 @@ local.properties
 .DS_Store
 
 *.jar
+/bin/
+/target/
