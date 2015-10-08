@@ -159,7 +159,7 @@ public class Client extends Thread{
 	    		} else if(option == 2){
 	    			
 	    			System.out.print("key: ");
-	    			key = scanner.nextLine();
+	    			key = scanner.next();
 	    			
 	    			pId = DistributedHashtable.hash(key, peerList.size());
 	    			
@@ -177,7 +177,7 @@ public class Client extends Thread{
 	    		}else if(option == 3){
 	    			
 	    			System.out.print("key: ");
-	    			key = scanner.nextLine();
+	    			key = scanner.next();
 	    			
 	    			pId = DistributedHashtable.hash(key, peerList.size());
 	    			
