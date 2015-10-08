@@ -2,7 +2,6 @@ package node;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -99,19 +98,13 @@ public class Client extends Thread{
 		}catch(Exception e){
 			System.out.println("Put a valid Id");
 		}
-		
-		String dir = args[1];
-    	File folder = new File(dir);
-    	
-    	if(!folder.isDirectory()){
-			System.out.println("Put a valid directory name");
-			return;
-    	}
     	
     	String address = InetAddress.getLocalHost().getHostAddress();
+    	address = args[1];
+    	
     	int port = 0;
     	try{
-    		port = Integer.parseInt(args[1]);
+    		port = Integer.parseInt(args[2]);
     	} catch (Exception e){
     		System.out.println("Put a valid port number");
     	}
@@ -121,8 +114,13 @@ public class Client extends Thread{
     	
     	ServerSocket serverSocket = new ServerSocket(port);
     	
+    	//start server
     	Server server = new Server(serverSocket, peer);
     	server.start();
+    	
+    	//start assign
+    	Assign assign = new Assign(peer);
+    	assign.start();
     	
     	
     	int option, pId;
@@ -141,12 +139,12 @@ public class Client extends Thread{
 	    		if(option == 1){
 	    			
 	    			System.out.print("key: ");
-	    			key = scanner.nextLine();
+	    			key = scanner.next();
 	    			System.out.print("value: ");
-	    			value = scanner.nextLine();
-	    			
+	    			value = scanner.next();
+	    			System.out.println(key + " " + value);
 	    			pId = DistributedHashtable.hash(key, peerList.size());
-	    			
+	    			System.out.println(pId);
 	    			try {
 	    				result = put(key, value, pId);
 	    			}catch (Exception e){
