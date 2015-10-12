@@ -26,11 +26,11 @@ public class Server extends Thread{
 			synchronized(peer.getPeerQueue()){
 				peer.addToPeerQueue(socket);
 			}
-			/*try {
+			try {
 				Thread.sleep(2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}*/
+			}
 		}
 		
 	}

@@ -9,22 +9,22 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import node.Assign;
+import node.OpenServer;
 import node.Peer;
-import node.Server;
 import util.DistributedHashtable;
 
-public class Benchmarking {
+public class OpenBench {
 	
 	private static ArrayList<String> peerList;
+	private static ArrayList<Socket> socketList;
 	
 	//put
 	public static Boolean put(String key, String value, int pId) throws Exception{
 		if(key.length() > 24) return false;
 		if(value.length() > 1000) return false;
 			
-		String[] peerAddress = peerList.get(pId).split(":");
-		Socket socket = new Socket(peerAddress[0], Integer.parseInt(peerAddress[1]));
+		Socket socket = socketList.get(pId);
+		
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
 		//put option
@@ -39,8 +39,6 @@ public class Benchmarking {
 		DataInputStream dIn = new DataInputStream(socket.getInputStream());
 		boolean ack = dIn.readBoolean();
 			
-		socket.close();
-			
 		return ack;
 	}
 		
@@ -48,8 +46,8 @@ public class Benchmarking {
 	public static String get(String key, int pId) throws IOException {
 		if(key.length() > 24) return null;
 			
-		String[] peerAddress = peerList.get(pId).split(":");
-		Socket socket = new Socket(peerAddress[0], Integer.parseInt(peerAddress[1]));
+		Socket socket = socketList.get(pId);
+		
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
 		//get option
@@ -63,8 +61,6 @@ public class Benchmarking {
 		DataInputStream dIn = new DataInputStream(socket.getInputStream());
 		String value = dIn.readUTF();
 			
-		socket.close();
-			
 		return value;
 	}
 		
@@ -72,8 +68,8 @@ public class Benchmarking {
 	public static Boolean delete(String key, int pId) throws Exception{
 		if(key.length() > 24) return false;
 			
-		String[] peerAddress = peerList.get(pId).split(":");
-		Socket socket = new Socket(peerAddress[0], Integer.parseInt(peerAddress[1]));
+		Socket socket = socketList.get(pId);
+		
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
 		//put option
@@ -87,14 +83,13 @@ public class Benchmarking {
 		DataInputStream dIn = new DataInputStream(socket.getInputStream());
 		boolean ack = dIn.readBoolean();
 			
-		socket.close();
-			
 		return ack;
 	}
 	
 	public static void main(String[] args) throws IOException{
 		
 		peerList = DistributedHashtable.readConfigFile();
+		socketList = new ArrayList<Socket>();
 		
 		int numPeers = peerList.size();
 		
@@ -112,12 +107,9 @@ public class Benchmarking {
         	ServerSocket serverSocket = new ServerSocket(port);
         	
         	//start server
-        	Server server = new Server(serverSocket, peer);
+        	OpenServer server = new OpenServer(serverSocket, peer);
         	server.start();
         	
-        	//start assign
-        	Assign assign = new Assign(peer);
-        	assign.start();
     	}
     	
     	//checking if all are open
@@ -125,7 +117,7 @@ public class Benchmarking {
     		try {
     			System.out.println("Connecting to server " + address + ":" + port);
     			Socket s = new Socket(address, port);
-    			s.close();
+    			socketList.add(s);
     			System.out.println("Connected to server " + address + ":" + port);
     		} catch (Exception e){
     			//System.out.println("Not connected to server " + address + ":" + port);
@@ -142,13 +134,12 @@ public class Benchmarking {
     	
     	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 1000; i++){
+    	for(int i = 0; i < 10; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
     		try {
 				put(key,UUID.randomUUID().toString(),pId);
-				System.out.println("put...");
 			}catch (Exception e){
 				System.out.println("Couldn't put the key-value pair in the system.");
 			}
@@ -158,9 +149,9 @@ public class Benchmarking {
     	
     	System.out.println("Running time to 100K put operations: " + (stop-start) + "ms.");
     	
-    	start = System.currentTimeMillis();
+    	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 1000; i++){
+    	for(int i = 0; i < 10; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
@@ -176,9 +167,9 @@ public class Benchmarking {
     	
     	System.out.println("Running time to 100K get operations: " + (stop-start) + "ms.");
     	
-    	start = System.currentTimeMillis();
+    	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 1000; i++){
+    	for(int i = 0; i < 10; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
@@ -194,6 +185,10 @@ public class Benchmarking {
     	System.out.println("Running time to 100K del operations: " + (stop-start) + "ms.");
     	
     	System.out.println("Overall time: " + (System.currentTimeMillis() - time) + "ms.");
+    	
+    	for(Socket sock : socketList){
+    		sock.close();
+    	}
 		
 	}
 

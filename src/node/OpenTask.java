@@ -2,25 +2,24 @@ package node;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.net.Socket;
 
-public class Task extends Thread{
+public class OpenTask extends Thread{
 	
-	private Socket socket;
+	private int option;
+	private DataInputStream dIn;
+	private DataOutputStream dOut;
 	private Peer peer;
-
-	public Task(Socket socket, Peer peer) {
-		this.socket = socket;
+	
+	public OpenTask(int option, DataInputStream dIn, DataOutputStream dOut, Peer peer){
+		this.option = option;
+		this.dIn = dIn;
+		this.dOut = dOut;
 		this.peer = peer;
 	}
 	
-	public void run() {
+	public void run(){
 		try{
 			
-			DataInputStream dIn = new DataInputStream(socket.getInputStream());
-			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-			
-			byte option = dIn.readByte();
 			String key, value;
 			
 			switch(option){
@@ -54,9 +53,8 @@ public class Task extends Thread{
 				
 			}
 		}catch (Exception e){
-			e.printStackTrace();
+			//System.out.println("Nothing happened");
 		}
-		
 	}
 
 }
