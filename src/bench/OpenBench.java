@@ -100,6 +100,8 @@ public class OpenBench {
     	
     	int port;
     	
+    	int operations = Integer.parseInt(args[0]);
+    	
     	//Creating servers
     	for(id = 0, port = 13000; id < peerList.size(); id++, port++){
     		Peer peer = new Peer(id, address, port);
@@ -130,11 +132,11 @@ public class OpenBench {
     	
     	long start, stop, time;
     	int pId;
-    	String key, value;
+    	String key;
     	
     	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 10; i++){
+    	for(int i = 0; i < operations; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
@@ -147,17 +149,17 @@ public class OpenBench {
     	
     	stop = System.currentTimeMillis();
     	
-    	System.out.println("Running time to 100K put operations: " + (stop-start) + "ms.");
+    	System.out.println("Running time to "+ operations + " put operations: " + (stop-start) + "ms.");
     	
-    	start = time = System.currentTimeMillis();
+    	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 10; i++){
+    	for(int i = 0; i < operations; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
     		try {
-				value = get(key,pId);
-				System.out.println(value);
+				get(key,pId);
+				//System.out.println(value);
 			}catch (Exception e){
 				System.out.println("Couldn't get the value pair from the system.");
 			}
@@ -165,11 +167,11 @@ public class OpenBench {
     	
     	stop = System.currentTimeMillis();
     	
-    	System.out.println("Running time to 100K get operations: " + (stop-start) + "ms.");
+    	System.out.println("Running time to "+ operations + " get operations: " + (stop-start) + "ms.");
     	
-    	start = time = System.currentTimeMillis();
+    	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 10; i++){
+    	for(int i = 0; i < operations; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
@@ -182,7 +184,7 @@ public class OpenBench {
     	
     	stop = System.currentTimeMillis();
     	
-    	System.out.println("Running time to 100K del operations: " + (stop-start) + "ms.");
+    	System.out.println("Running time to "+ operations + " del operations: " + (stop-start) + "ms.");
     	
     	System.out.println("Overall time: " + (System.currentTimeMillis() - time) + "ms.");
     	

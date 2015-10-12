@@ -125,6 +125,7 @@ public class Benchmarking {
     		try {
     			System.out.println("Connecting to server " + address + ":" + port);
     			Socket s = new Socket(address, port);
+    			//System.out.println("Getting Remote Server " + s.getRemoteSocketAddress());
     			s.close();
     			System.out.println("Connected to server " + address + ":" + port);
     		} catch (Exception e){
@@ -142,13 +143,13 @@ public class Benchmarking {
     	
     	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 1000; i++){
+    	for(int i = 0; i < 10; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
     		try {
 				put(key,UUID.randomUUID().toString(),pId);
-				System.out.println("put...");
+				System.out.println("put... " + i);
 			}catch (Exception e){
 				System.out.println("Couldn't put the key-value pair in the system.");
 			}
@@ -160,7 +161,7 @@ public class Benchmarking {
     	
     	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 1000; i++){
+    	for(int i = 0; i < 10; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
@@ -178,7 +179,7 @@ public class Benchmarking {
     	
     	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 1000; i++){
+    	for(int i = 0; i < 10; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		

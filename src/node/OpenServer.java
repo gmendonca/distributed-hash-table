@@ -31,8 +31,40 @@ public class OpenServer extends Thread{
 			try{
 				
 				byte option = dIn.readByte();
+				String key, value;
 				
-				new OpenTask(option, dIn, dOut, peer).start();
+				//new OpenTask(option, dIn, dOut, peer).start();
+				
+				switch(option){
+				case 0:
+					key = dIn.readUTF();
+					value = dIn.readUTF();
+					//TODO: check if this is not to quickly
+					dOut.writeBoolean(peer.put(key, value));
+					dOut.flush();
+					//socket.close();
+					break;
+				case 1:
+					//get
+					key = dIn.readUTF();
+					//TODO: check if this is not to quickly
+					value = peer.get(key);
+					dOut.writeUTF((value != null) ? value : "");
+					dOut.flush();
+					//socket.close();
+					break;
+				case 2:
+					//delete
+					key = dIn.readUTF();
+					//TODO: check if this is not to quickly
+					dOut.writeBoolean(peer.delete(key));
+					dOut.flush();
+					//socket.close();
+					break;
+				default:
+					System.out.println("Not an option");
+				
+			}
 					
 
 			}catch (Exception e){
