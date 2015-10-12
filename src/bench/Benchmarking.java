@@ -96,7 +96,7 @@ public class Benchmarking {
 		int id;
     	
     	String address = InetAddress.getLocalHost().getHostAddress();
-    	address = args[1];
+    	//address = args[1];
     	
     	int port = 13000;
     	
