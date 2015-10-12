@@ -54,7 +54,7 @@ public class Task extends Thread{
 				
 			}
 		}catch (Exception e){
-			e.printStackTrace();
+			System.out.println("Nothing happened");
 		}
 		
 	}

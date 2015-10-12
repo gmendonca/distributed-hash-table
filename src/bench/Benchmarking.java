@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import node.Assign;
 import node.Peer;
@@ -14,7 +15,10 @@ import node.Server;
 import util.DistributedHashtable;
 
 public class Benchmarking {
+	
 	private static ArrayList<String> peerList;
+	private static ArrayList<Socket> socketList;
+	
 	//put
 	public static Boolean put(String key, String value, int pId) throws Exception{
 		if(key.length() > 24) return false;
@@ -93,6 +97,8 @@ public class Benchmarking {
 		
 		peerList = DistributedHashtable.readConfigFile();
 		
+		int numPeers = peerList.size();
+		
 		int id;
     	
     	String address = InetAddress.getLocalHost().getHostAddress();
@@ -130,6 +136,64 @@ public class Benchmarking {
     		}
     	}
     	System.out.println("All servers running");
+    	
+    	long start, stop, time;
+    	int pId;
+    	String key, value;
+    	
+    	start = time = System.currentTimeMillis();
+    	
+    	for(int i = 0; i < 10; i++){
+    		key = Integer.toString(i);
+    		pId = DistributedHashtable.hash(key, numPeers);
+    		
+    		try {
+				put(key,UUID.randomUUID().toString(),pId);
+			}catch (Exception e){
+				System.out.println("Couldn't put the key-value pair in the system.");
+			}
+    	}
+    	
+    	stop = System.currentTimeMillis();
+    	
+    	System.out.println("Running time to 100K put operations: " + (stop-start) + "ms.");
+    	
+    	start = time = System.currentTimeMillis();
+    	
+    	for(int i = 0; i < 10; i++){
+    		key = Integer.toString(i);
+    		pId = DistributedHashtable.hash(key, numPeers);
+    		
+    		try {
+				value = get(key,pId);
+				System.out.println(value);
+			}catch (Exception e){
+				System.out.println("Couldn't get the value pair from the system.");
+			}
+    	}
+    	
+    	stop = System.currentTimeMillis();
+    	
+    	System.out.println("Running time to 100K get operations: " + (stop-start) + "ms.");
+    	
+    	start = time = System.currentTimeMillis();
+    	
+    	for(int i = 0; i < 10; i++){
+    		key = Integer.toString(i);
+    		pId = DistributedHashtable.hash(key, numPeers);
+    		
+    		try {
+				delete(key,pId);
+			}catch (Exception e){
+				System.out.println("Couldn't delte the key-value pair in the system.");
+			}
+    	}
+    	
+    	stop = System.currentTimeMillis();
+    	
+    	System.out.println("Running time to 100K del operations: " + (stop-start) + "ms.");
+    	
+    	System.out.println("Overall time: " + (System.currentTimeMillis() - time) + "ms.");
 		
 	}
 
