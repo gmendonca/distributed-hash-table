@@ -98,10 +98,10 @@ public class Benchmarking {
     	String address = InetAddress.getLocalHost().getHostAddress();
     	//address = args[1];
     	
-    	int port = 13000;
+    	int port;
     	
     	//Creating servers
-    	for(id = 0; id < peerList.size(); id++, port++){
+    	for(id = 0, port = 13000; id < peerList.size(); id++, port++){
     		Peer peer = new Peer(id, address, port);
         	
         	ServerSocket serverSocket = new ServerSocket(port);
@@ -116,17 +116,17 @@ public class Benchmarking {
     	}
     	
     	//checking if all are open
-    	for(id = 0; id < peerList.size(); id++, port++){
+    	for(id = 0, port = 13000; id < peerList.size(); id++, port++){
     		try {
     			System.out.println("Connecting to server " + address + ":" + port);
     			Socket s = new Socket(address, port);
     			s.close();
     			System.out.println("Connected to server " + address + ":" + port);
     		} catch (Exception e){
+    			//System.out.println("Not connected to server " + address + ":" + port);
+    			//System.out.println("Trying again");
     			id--;
     			port--;
-    			System.out.println("Not connected to server " + address + ":" + port);
-    			System.out.println("Trying again");
     		}
     	}
     	System.out.println("All servers running");
