@@ -160,7 +160,7 @@ public class Benchmarking {
     	System.out.println("Running time to 100K put operations: " + (stop-start) + "ms.");
     	
     	start = System.currentTimeMillis();
-    	
+    	 
     	for(int i = 0; i < 10; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
