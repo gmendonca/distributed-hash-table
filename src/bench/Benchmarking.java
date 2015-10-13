@@ -17,7 +17,12 @@ public class Benchmarking {
 	public static int operations;
 
 	public static void main(String[] args) throws IOException {
-
+		
+		if(args.length < 2){
+			System.out.println("Usage: java -jar build/OpenBench.jar <Number of operations> <Number of CLients>");
+			return;
+		}
+		
 		peerList = DistributedHashtable.readConfigFile();
 
 		numPeers = peerList.size();
@@ -25,8 +30,16 @@ public class Benchmarking {
 		int id;
 
 		operations = Integer.parseInt(args[0]);
+		if(operations < 0){
+			System.out.println("Number of operations should be a positive number!");
+			return;
+		}
 
 		int numClients = Integer.parseInt(args[1]);
+		if(numClients > numPeers){
+			System.out.println("Number of Clients shouldn't be greater than the number provided in the config file!");
+			return;
+		}
 		
 		String[] peerAddress;
 		String address;

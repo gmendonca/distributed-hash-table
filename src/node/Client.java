@@ -98,7 +98,12 @@ public class Client extends Thread {
 	}
 
 	public static void main(String[] args) throws IOException {
-
+		
+		if(args.length < 3){
+			System.out.println("Usage: java -jar build/OpenBench.jar <PeerId> <Address> <Port>");
+			return;
+		}
+		
 		peerList = DistributedHashtable.readConfigFile();
 
 		int id = 0;
@@ -106,16 +111,22 @@ public class Client extends Thread {
 			id = Integer.parseInt(args[0]);
 		} catch (Exception e) {
 			System.out.println("Put a valid Id");
+			return;
+		}
+		
+		if(id > peerList.size()){
+			System.out.println("Peer Id shouldn't be greater than the number provided in the config file!");
+			return;
 		}
 
-		String address = InetAddress.getLocalHost().getHostAddress();
-		address = args[1];
+		String address = args[1];
 
 		int port = 0;
 		try {
 			port = Integer.parseInt(args[2]);
 		} catch (Exception e) {
 			System.out.println("Put a valid port number");
+			return;
 		}
 
 		Peer peer = new Peer(id, address, port);

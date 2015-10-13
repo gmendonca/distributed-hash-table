@@ -40,3 +40,5 @@ $ ant clean
 $ ant compile
 $ ant jar
 ```
+
+## How to use
