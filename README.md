@@ -5,7 +5,7 @@ and Java inbuilt Hashtable for store key-value pairs.
 
 ## Configure
 
-There is a [JSON file]() in the system. The prebuilt configuration is 8 servers running in localhost,
+There is a [JSON file](https://code.google.com/p/json-simple/) in the system. The prebuilt configuration is 8 servers running in localhost,
 from ports 13000 to 13007. If you need to run in a different situation, you have to change the values
 there. It's a simple array of strings using the format "address:port".
 
