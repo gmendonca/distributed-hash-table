@@ -9,14 +9,14 @@ import java.util.UUID;
 
 import util.DistributedHashtable;
 
-public class Client extends Thread{
+public class OpenClient extends Thread{
 	
 	private int num;
 	public static ArrayList<Socket> socketList;
 	
-	public Client(int num, ArrayList<Socket> socketList){
+	public OpenClient(int num, ArrayList<Socket> socketList){
 		this.num = num;
-		Client.socketList = socketList;
+		OpenClient.socketList = socketList;
 	}
 	
 	//put

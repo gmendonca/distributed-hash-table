@@ -67,7 +67,7 @@ public class OpenBench {
     	
     	System.out.println("All servers running");
     	
-    	new Client(0, socketList).start();
+    	new OpenClient(0, socketList).start();
     	
     	for(int i = 1; i < numClients; i++){
     		socketList = new ArrayList<Socket>();
@@ -77,7 +77,7 @@ public class OpenBench {
     			System.out.println("Connected to server " + address + ":" + port);
     			socketList.add(s);
     		}
-    		new Client(i, socketList).start();
+    		new OpenClient(i, socketList).start();
     	}
     	
     	
