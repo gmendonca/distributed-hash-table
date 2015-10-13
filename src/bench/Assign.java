@@ -1,24 +1,25 @@
 package bench;
+
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import node.Peer;
 
-public class Assign extends Thread{
-	
+public class Assign extends Thread {
+
 	private int numThreads = 4;
 	private Peer peer;
-	
-	public Assign(Peer peer){
+
+	public Assign(Peer peer) {
 		this.peer = peer;
 	}
-	
-	public void run(){
+
+	public void run() {
 		ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
-		while(true){
-			if(peer.peekPeerQueue() == null){
+		while (true) {
+			if (peer.peekPeerQueue() == null) {
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {
@@ -26,7 +27,7 @@ public class Assign extends Thread{
 				}
 				continue;
 			}
-			synchronized(peer.getPeerQueue()){
+			synchronized (peer.getPeerQueue()) {
 				Socket socket = peer.pollPeerQueue();
 				Task t = new Task(socket, peer);
 				executor.execute(t);
