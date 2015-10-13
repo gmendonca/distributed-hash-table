@@ -95,11 +95,7 @@ public class OpenBench {
 				peerAddress = peerList.get(i).split(":");
 				address =  peerAddress[0];
 				port = Integer.parseInt(peerAddress[1]);
-				System.out.println("Connecting to server " + address + ":"
-						+ port);
 				Socket s = new Socket(address, port);
-				System.out.println("Connected to server " + address + ":"
-						+ port);
 				socketList.add(s);
 			}
 			new OpenClient(i, socketList).start();
