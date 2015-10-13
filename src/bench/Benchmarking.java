@@ -72,14 +72,14 @@ public class Benchmarking {
 			port = Integer.parseInt(peerAddress[1]);
 			
 			try {
-				System.out.println("Connecting to server " + address + ":"
+				System.out.println("Testing connection to server " + address + ":"
 						+ port);
 				Socket s = new Socket(address, port);
 				// System.out.println("Getting Remote Server " +
 				// s.getRemoteSocketAddress());
 				s.close();
-				System.out.println("Connected to server " + address + ":"
-						+ port);
+				System.out.println("Server " + address + ":"
+						+ port + " is running.");
 			} catch (Exception e) {
 				// System.out.println("Not connected to server " + address + ":"
 				// + port);

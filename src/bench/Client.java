@@ -103,8 +103,6 @@ public class Client extends Thread {
 				put(key, UUID.randomUUID().toString(), pId);
 				//System.out.println("put " + i);
 			} catch (Exception e) {
-				System.out
-						.println("Couldn't put the key-value pair in the system.");
 			}
 		}
 
@@ -125,8 +123,6 @@ public class Client extends Thread {
 				get(key, pId);
 				// System.out.println(value);
 			} catch (Exception e) {
-				System.out
-						.println("Couldn't get the value pair from the system.");
 			}
 		}
 
@@ -146,8 +142,6 @@ public class Client extends Thread {
 			try {
 				delete(key, pId);
 			} catch (Exception e) {
-				System.out
-						.println("Couldn't delete the key-value pair in the system.");
 			}
 		}
 
