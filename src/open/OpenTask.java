@@ -21,7 +21,7 @@ public class OpenTask extends Thread {
 		try {
 			
 			while(true){
-				synchronized(socket){
+				//synchronized(socket){
 					DataInputStream dIn = new DataInputStream(socket.getInputStream());
 					DataOutputStream dOut = null;
 					
@@ -56,7 +56,7 @@ public class OpenTask extends Thread {
 					default:
 						System.out.println("Not an option");
 					}
-				}
+				//}
 			}
 		} catch (Exception e) {
 			//System.out.println("Nothing happened");
