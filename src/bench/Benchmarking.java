@@ -19,7 +19,7 @@ public class Benchmarking {
 	public static void main(String[] args) throws IOException {
 		
 		if(args.length < 2){
-			System.out.println("Usage: java -jar build/OpenBench.jar <Number of operations> <Number of CLients>");
+			System.out.println("Usage: java -jar build/OpenBench.jar <Number of operations> <Number of Clients>");
 			return;
 		}
 		

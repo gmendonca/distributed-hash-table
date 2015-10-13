@@ -42,3 +42,43 @@ $ ant jar
 ```
 
 ## How to use
+
+I provided a simple script to make it easier to run the program. You need to run it this way:
+
+```sh
+source script.sh
+```
+
+And then you can type `help` to see the options:
+
+```
+run_openbench - Run Benchmarking leaving the socket open
+run_client - Run a Client and Server with an user interface
+run_bench - Run Benchmarking closing and opening the socket
+```
+
+Or you can run the jar files like this:
+```sh
+java -jar build/OpenBench.jar <PeerId> <Address> <Port>
+
+java -jar build/OpenBench.jar <Number of operations> <Number of Clients>
+
+java -jar build/OpenBench.jar <Number of operations> <Number of Clients>
+```
+
+The options for both option are explained above:
+
+* PeerId - It should be a number starting from 0 and going until the limit of
+the number of Peers provided in the config file. Keep in mind, that there isn't
+any sort of verification here. So in order to use the program, keep it fair.
+
+* Address - Should be localhost or an valid ip address.
+
+* Port - A valid port number for the provided address.
+
+* Number Operations - Number of Put, Get and Del operations to run in each client.
+
+* Number of Clients - Number of Clients that you will run the benchmarking.
+
+P.S.: The number of server will be the number provided in the config file.
+And the operations will Put, Get, and Del from all of them depending on the key value.
