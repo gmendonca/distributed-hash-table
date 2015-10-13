@@ -30,7 +30,7 @@ public class Task extends Thread{
 					//TODO: check if this is not to quickly
 					dOut.writeBoolean(peer.put(key, value));
 					dOut.flush();
-					//socket.close();
+					socket.close();
 					break;
 				case 1:
 					//get
@@ -39,7 +39,7 @@ public class Task extends Thread{
 					value = peer.get(key);
 					dOut.writeUTF((value != null) ? value : "");
 					dOut.flush();
-					//socket.close();
+					socket.close();
 					break;
 				case 2:
 					//delete
@@ -47,7 +47,7 @@ public class Task extends Thread{
 					//TODO: check if this is not to quickly
 					dOut.writeBoolean(peer.delete(key));
 					dOut.flush();
-					//socket.close();
+					socket.close();
 					break;
 				default:
 					System.out.println("Not an option");

@@ -1,6 +1,5 @@
 package bench;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -36,12 +35,13 @@ public class Benchmarking {
 		dOut.writeUTF(value);
 		dOut.flush();
 			
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		boolean ack = dIn.readBoolean();
+		//DataInputStream dIn = new DataInputStream(socket.getInputStream());
+		//boolean ack = dIn.readBoolean();
 			
 		socket.close();
 			
-		return ack;
+		//return ack;
+		return true;
 	}
 		
 	//get
@@ -60,12 +60,13 @@ public class Benchmarking {
 		dOut.writeUTF(key);
 		dOut.flush();
 			
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		String value = dIn.readUTF();
+		//DataInputStream dIn = new DataInputStream(socket.getInputStream());
+		//String value = dIn.readUTF();
 			
 		socket.close();
 			
-		return value;
+		//return value;
+		return "";
 	}
 		
 	//delete
@@ -84,12 +85,13 @@ public class Benchmarking {
 		dOut.writeUTF(key);
 		dOut.flush();
 			
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		boolean ack = dIn.readBoolean();
+		//DataInputStream dIn = new DataInputStream(socket.getInputStream());
+		//boolean ack = dIn.readBoolean();
 			
 		socket.close();
 			
-		return ack;
+		//return ack;
+		return true;
 	}
 	
 	public static void main(String[] args) throws IOException{
@@ -139,17 +141,17 @@ public class Benchmarking {
     	
     	long start, stop, time;
     	int pId;
-    	String key, value;
+    	String key;
     	
     	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 10; i++){
+    	for(int i = 0; i < 100000; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
     		try {
 				put(key,UUID.randomUUID().toString(),pId);
-				System.out.println("put... " + i);
+				//System.out.println("put... " + i);
 			}catch (Exception e){
 				System.out.println("Couldn't put the key-value pair in the system.");
 			}
@@ -161,13 +163,13 @@ public class Benchmarking {
     	
     	start = System.currentTimeMillis();
     	 
-    	for(int i = 0; i < 10; i++){
+    	for(int i = 0; i < 100000; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		
     		try {
-				value = get(key,pId);
-				System.out.println(value);
+				get(key,pId);
+				//System.out.println(value);
 			}catch (Exception e){
 				System.out.println("Couldn't get the value pair from the system.");
 			}
@@ -179,7 +181,7 @@ public class Benchmarking {
     	
     	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < 10; i++){
+    	for(int i = 0; i < 100000; i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, numPeers);
     		

@@ -23,5 +23,9 @@ public class PeerQueue<T> {
 	public PeerQueue(){
 		queue = new LinkedList<T>();
 	}
+	
+	public int Size(){
+		return queue.size();
+	}
 
 }
