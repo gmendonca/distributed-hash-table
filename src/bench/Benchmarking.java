@@ -25,7 +25,7 @@ public class Benchmarking {
 		
 		peerList = DistributedHashtable.readConfigFile();
 		
-		int numPeers = peerList.size();
+		numPeers = peerList.size();
 		
 		int id;
     	
