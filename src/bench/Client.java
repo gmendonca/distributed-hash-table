@@ -84,15 +84,16 @@ public class Client extends Thread{
     	int pId;
     	String key;
     	
+    	
     	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < Benchmarking.operations; i++){
+    	for(int i = Benchmarking.operations*(num+1); i < Benchmarking.operations*(num+2); i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, Benchmarking.numPeers);
     		
     		try {
 				put(key,UUID.randomUUID().toString(),pId);
-				//System.out.println("put " + i);
+				System.out.println("put " + i);
 			}catch (Exception e){
 				System.out.println("Couldn't put the key-value pair in the system.");
 			}
@@ -104,7 +105,7 @@ public class Client extends Thread{
     	
     	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < Benchmarking.operations; i++){
+    	for(int i = Benchmarking.operations*(num+1); i < Benchmarking.operations*(num+2); i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, Benchmarking.numPeers);
     		
@@ -122,7 +123,7 @@ public class Client extends Thread{
     	
     	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < Benchmarking.operations; i++){
+    	for(int i = Benchmarking.operations*(num+1); i < Benchmarking.operations*(num+2); i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, Benchmarking.numPeers);
     		

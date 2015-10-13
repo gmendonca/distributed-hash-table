@@ -1,4 +1,4 @@
-package bench;
+package open;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -27,7 +27,6 @@ public class OpenClient extends Thread{
 		Socket socket = socketList.get(pId);
 		
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-			
 		//put option
 		dOut.writeByte(0);
 		dOut.flush();
@@ -80,9 +79,11 @@ public class OpenClient extends Thread{
 		//key, value
 		dOut.writeUTF(key);
 		dOut.flush();
+
 			
 		DataInputStream dIn = new DataInputStream(socket.getInputStream());
 		boolean ack = dIn.readBoolean();
+
 			
 		return ack;
 	}
@@ -94,13 +95,13 @@ public class OpenClient extends Thread{
     	
     	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < OpenBench.operations; i++){
+    	for(int i = OpenBench.operations * (num+1); i < OpenBench.operations * (num+2); i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, OpenBench.numPeers);
     		
     		try {
 				put(key,UUID.randomUUID().toString(),pId);
-				System.out.println("put " + i);
+				//System.out.println("put " + i);
 			}catch (Exception e){
 				System.out.println("Couldn't put the key-value pair in the system.");
 			}
@@ -112,7 +113,7 @@ public class OpenClient extends Thread{
     	
     	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < OpenBench.operations; i++){
+    	for(int i = OpenBench.operations * (num+1); i < OpenBench.operations * (num+2); i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, OpenBench.numPeers);
     		
@@ -130,7 +131,7 @@ public class OpenClient extends Thread{
     	
     	start = System.currentTimeMillis();
     	
-    	for(int i = 0; i < OpenBench.operations; i++){
+    	for(int i = OpenBench.operations * (num+1); i < OpenBench.operations * (num+2); i++){
     		key = Integer.toString(i);
     		pId = DistributedHashtable.hash(key, OpenBench.numPeers);
     		
