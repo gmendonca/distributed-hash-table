@@ -1,13 +1,10 @@
 package bench;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import node.OpenServer;
 import node.Peer;
@@ -15,83 +12,19 @@ import util.DistributedHashtable;
 
 public class OpenBench {
 	
-	private static ArrayList<String> peerList;
-	private static ArrayList<Socket> socketList;
+	public static ArrayList<String> peerList;
+	public static ArrayList<Socket> socketList;
+	public static int numPeers;
+	public static int operations;
 	
-	//put
-	public static Boolean put(String key, String value, int pId) throws Exception{
-		if(key.length() > 24) return false;
-		if(value.length() > 1000) return false;
-			
-		Socket socket = socketList.get(pId);
-		
-		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-			
-		//put option
-		dOut.writeByte(0);
-		dOut.flush();
-			
-		//key, value
-		dOut.writeUTF(key);
-		dOut.writeUTF(value);
-		dOut.flush();
-			
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		boolean ack = dIn.readBoolean();
-			
-		return ack;
-	}
-		
-	//get
-	public static String get(String key, int pId) throws IOException {
-		if(key.length() > 24) return null;
-			
-		Socket socket = socketList.get(pId);
-		
-		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-			
-		//get option
-		dOut.writeByte(1);
-		dOut.flush();
-			
-		//key
-		dOut.writeUTF(key);
-		dOut.flush();
-			
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		String value = dIn.readUTF();
-			
-		return value;
-	}
-		
-	//delete
-	public static Boolean delete(String key, int pId) throws Exception{
-		if(key.length() > 24) return false;
-			
-		Socket socket = socketList.get(pId);
-		
-		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-			
-		//put option
-		dOut.writeByte(2);
-		dOut.flush();
-			
-		//key, value
-		dOut.writeUTF(key);
-		dOut.flush();
-			
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		boolean ack = dIn.readBoolean();
-			
-		return ack;
-	}
+	
 	
 	public static void main(String[] args) throws IOException{
 		
 		peerList = DistributedHashtable.readConfigFile();
 		socketList = new ArrayList<Socket>();
 		
-		int numPeers = peerList.size();
+		numPeers = peerList.size();
 		
 		int id;
     	
@@ -100,7 +33,7 @@ public class OpenBench {
     	
     	int port;
     	
-    	int operations = Integer.parseInt(args[0]);
+    	operations = Integer.parseInt(args[0]);
     	
     	//Creating servers
     	for(id = 0, port = 13000; id < peerList.size(); id++, port++){
@@ -130,67 +63,9 @@ public class OpenBench {
     	}
     	System.out.println("All servers running");
     	
-    	long start, stop, time;
-    	int pId;
-    	String key;
+    	new Client().start();
     	
-    	start = time = System.currentTimeMillis();
     	
-    	for(int i = 0; i < operations; i++){
-    		key = Integer.toString(i);
-    		pId = DistributedHashtable.hash(key, numPeers);
-    		
-    		try {
-				put(key,UUID.randomUUID().toString(),pId);
-			}catch (Exception e){
-				System.out.println("Couldn't put the key-value pair in the system.");
-			}
-    	}
-    	
-    	stop = System.currentTimeMillis();
-    	
-    	System.out.println("Running time to "+ operations + " put operations: " + (stop-start) + "ms.");
-    	
-    	start = System.currentTimeMillis();
-    	
-    	for(int i = 0; i < operations; i++){
-    		key = Integer.toString(i);
-    		pId = DistributedHashtable.hash(key, numPeers);
-    		
-    		try {
-				get(key,pId);
-				//System.out.println(value);
-			}catch (Exception e){
-				System.out.println("Couldn't get the value pair from the system.");
-			}
-    	}
-    	
-    	stop = System.currentTimeMillis();
-    	
-    	System.out.println("Running time to "+ operations + " get operations: " + (stop-start) + "ms.");
-    	
-    	start = System.currentTimeMillis();
-    	
-    	for(int i = 0; i < operations; i++){
-    		key = Integer.toString(i);
-    		pId = DistributedHashtable.hash(key, numPeers);
-    		
-    		try {
-				delete(key,pId);
-			}catch (Exception e){
-				System.out.println("Couldn't delte the key-value pair in the system.");
-			}
-    	}
-    	
-    	stop = System.currentTimeMillis();
-    	
-    	System.out.println("Running time to "+ operations + " del operations: " + (stop-start) + "ms.");
-    	
-    	System.out.println("Overall time: " + (System.currentTimeMillis() - time) + "ms.");
-    	
-    	for(Socket sock : socketList){
-    		sock.close();
-    	}
 		
 	}
 
