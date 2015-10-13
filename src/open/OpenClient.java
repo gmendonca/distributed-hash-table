@@ -103,6 +103,7 @@ public class OpenClient extends Thread {
 		long start, stop, time;
 		int pId;
 		String key, value;
+		boolean result;
 
 		start = time = System.currentTimeMillis();
 
@@ -112,8 +113,8 @@ public class OpenClient extends Thread {
 			pId = DistributedHashtable.hash(key, OpenBench.numPeers);
 
 			try {
-				put(key, UUID.randomUUID().toString(), pId);
-				System.out.println("put " + i);
+				result = put(key, UUID.randomUUID().toString(), pId);
+				System.out.println("put " + i + " " + result);
 			} catch (Exception e) {
 				System.out
 						.println("Couldn't put the key-value pair in the system.");
@@ -156,8 +157,8 @@ public class OpenClient extends Thread {
 			pId = DistributedHashtable.hash(key, OpenBench.numPeers);
 
 			try {
-				delete(key, pId);
-				System.out.println("deleted " + i)
+				result = delete(key, pId);
+				System.out.println("deleted " + i + " " + result);
 			} catch (Exception e) {
 				//e.printStackTrace();
 				System.out
