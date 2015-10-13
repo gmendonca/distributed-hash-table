@@ -13,7 +13,6 @@ import util.DistributedHashtable;
 public class OpenBench {
 	
 	public static ArrayList<String> peerList;
-	public static ArrayList<Socket> socketList;
 	public static int numPeers;
 	public static int operations;
 	
@@ -22,7 +21,6 @@ public class OpenBench {
 	public static void main(String[] args) throws IOException{
 		
 		peerList = DistributedHashtable.readConfigFile();
-		socketList = new ArrayList<Socket>();
 		
 		numPeers = peerList.size();
 		
@@ -35,8 +33,11 @@ public class OpenBench {
     	
     	operations = Integer.parseInt(args[0]);
     	
+    	int numClients = Integer.parseInt(args[1]);
+    	
+    	
     	//Creating servers
-    	for(id = 0, port = 13000; id < peerList.size(); id++, port++){
+    	for(id = 0, port = 15000; id < peerList.size(); id++, port++){
     		Peer peer = new Peer(id, address, port);
         	
         	ServerSocket serverSocket = new ServerSocket(port);
@@ -47,8 +48,10 @@ public class OpenBench {
         	
     	}
     	
+    	ArrayList<Socket> socketList = new ArrayList<Socket>();;
+    	
     	//checking if all are open
-    	for(id = 0, port = 13000; id < peerList.size(); id++, port++){
+    	for(id = 0, port = 15000; id < peerList.size(); id++, port++){
     		try {
     			System.out.println("Connecting to server " + address + ":" + port);
     			Socket s = new Socket(address, port);
@@ -61,9 +64,21 @@ public class OpenBench {
     			port--;
     		}
     	}
+    	
     	System.out.println("All servers running");
     	
-    	new Client().start();
+    	new Client(0, socketList).start();
+    	
+    	for(int i = 1; i < numClients; i++){
+    		socketList = new ArrayList<Socket>();
+    		for(id = 0, port = 15000; id < peerList.size(); id++, port++){
+    			System.out.println("Connecting to server " + address + ":" + port);
+    			Socket s = new Socket(address, port);
+    			System.out.println("Connected to server " + address + ":" + port);
+    			socketList.add(s);
+    		}
+    		new Client(i, socketList).start();
+    	}
     	
     	
 		

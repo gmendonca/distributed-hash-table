@@ -2,18 +2,17 @@ package node;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.net.Socket;
 
 public class OpenTask extends Thread{
 	
 	private int option;
-	private DataInputStream dIn;
-	private DataOutputStream dOut;
 	private Peer peer;
+	private Socket socket;
 	
-	public OpenTask(int option, DataInputStream dIn, DataOutputStream dOut, Peer peer){
+	public OpenTask(int option, Socket socket, Peer peer){
 		this.option = option;
-		this.dIn = dIn;
-		this.dOut = dOut;
+		this.socket = socket;
 		this.peer = peer;
 	}
 	
@@ -21,6 +20,8 @@ public class OpenTask extends Thread{
 		try{
 			
 			String key, value;
+			DataInputStream dIn = new DataInputStream(socket.getInputStream());
+			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
 			switch(option){
 				case 0:
@@ -54,6 +55,8 @@ public class OpenTask extends Thread{
 			}
 		}catch (Exception e){
 			//System.out.println("Nothing happened");
+			e.printStackTrace();
+			try { Thread.sleep(2); }catch(Exception e1){ }
 		}
 	}
 

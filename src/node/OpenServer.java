@@ -31,9 +31,10 @@ public class OpenServer extends Thread{
 			try{
 				
 				byte option = dIn.readByte();
+				System.out.println(option);
 				String key, value;
 				
-				//new OpenTask(option, dIn, dOut, peer).start();
+				//new OpenTask(option, socket, peer).start();
 				
 				switch(option){
 				case 0:
@@ -63,12 +64,12 @@ public class OpenServer extends Thread{
 					break;
 				default:
 					System.out.println("Not an option");
+				}
 				
-			}
-					
-
 			}catch (Exception e){
 				//System.out.println("Nothing happened");
+				//e.printStackTrace();
+				//try { Thread.sleep(2); }catch(Exception e1){ }
 			}
 		}
 		

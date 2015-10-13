@@ -186,7 +186,7 @@ public class Benchmarking {
     		try {
 				delete(key,pId);
 			}catch (Exception e){
-				System.out.println("Couldn't delte the key-value pair in the system.");
+				System.out.println("Couldn't delete the key-value pair in the system.");
 			}
     	}
     	

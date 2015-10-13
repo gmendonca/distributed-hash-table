@@ -4,18 +4,27 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import util.DistributedHashtable;
 
 public class Client extends Thread{
 	
+	private int num;
+	public static ArrayList<Socket> socketList;
+	
+	public Client(int num, ArrayList<Socket> socketList){
+		this.num = num;
+		Client.socketList = socketList;
+	}
+	
 	//put
 	public static Boolean put(String key, String value, int pId) throws Exception{
 		if(key.length() > 24) return false;
 		if(value.length() > 1000) return false;
 			
-		Socket socket = OpenBench.socketList.get(pId);
+		Socket socket = socketList.get(pId);
 		
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
@@ -38,7 +47,7 @@ public class Client extends Thread{
 	public static String get(String key, int pId) throws IOException {
 		if(key.length() > 24) return null;
 			
-		Socket socket = OpenBench.socketList.get(pId);
+		Socket socket = socketList.get(pId);
 		
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
@@ -60,7 +69,7 @@ public class Client extends Thread{
 	public static Boolean delete(String key, int pId) throws Exception{
 		if(key.length() > 24) return false;
 			
-		Socket socket = OpenBench.socketList.get(pId);
+		Socket socket = socketList.get(pId);
 		
 		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
 			
@@ -91,6 +100,7 @@ public class Client extends Thread{
     		
     		try {
 				put(key,UUID.randomUUID().toString(),pId);
+				System.out.println("put " + i);
 			}catch (Exception e){
 				System.out.println("Couldn't put the key-value pair in the system.");
 			}
@@ -98,7 +108,7 @@ public class Client extends Thread{
     	
     	stop = System.currentTimeMillis();
     	
-    	System.out.println("Running time to "+ OpenBench.operations + " put operations: " + (stop-start) + "ms.");
+    	System.out.println("Client " + num + ": Running time to "+ OpenBench.operations + " put operations: " + (stop-start) + "ms.");
     	
     	start = System.currentTimeMillis();
     	
@@ -116,7 +126,7 @@ public class Client extends Thread{
     	
     	stop = System.currentTimeMillis();
     	
-    	System.out.println("Running time to "+ OpenBench.operations + " get operations: " + (stop-start) + "ms.");
+    	System.out.println("Client " + num + ": Running time to "+ OpenBench.operations + " get operations: " + (stop-start) + "ms.");
     	
     	start = System.currentTimeMillis();
     	
@@ -127,17 +137,17 @@ public class Client extends Thread{
     		try {
 				delete(key,pId);
 			}catch (Exception e){
-				System.out.println("Couldn't delte the key-value pair in the system.");
+				System.out.println("Couldn't delete the key-value pair in the system.");
 			}
     	}
     	
     	stop = System.currentTimeMillis();
     	
-    	System.out.println("Running time to "+ OpenBench.operations + " del operations: " + (stop-start) + "ms.");
+    	System.out.println("Client " + num + ": Running time to "+ OpenBench.operations + " del operations: " + (stop-start) + "ms.");
     	
-    	System.out.println("Overall time: " + (System.currentTimeMillis() - time) + "ms.");
+    	System.out.println("Client " + num + ": Overall time: " + (System.currentTimeMillis() - time) + "ms.");
     	
-    	for(Socket sock : OpenBench.socketList){
+    	for(Socket sock : socketList){
     		try {
 				sock.close();
 			} catch (IOException e) {
