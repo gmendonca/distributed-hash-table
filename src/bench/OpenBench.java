@@ -6,7 +6,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import node.OpenServer;
 import node.Peer;
 import util.DistributedHashtable;
 

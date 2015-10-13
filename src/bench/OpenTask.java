@@ -1,8 +1,10 @@
-package node;
+package bench;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+
+import node.Peer;
 
 public class OpenTask extends Thread{
 	
