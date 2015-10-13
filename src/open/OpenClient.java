@@ -172,6 +172,8 @@ public class OpenClient extends Thread {
 
 		System.out.println("Client " + num + ": Overall time: "
 				+ (System.currentTimeMillis() - time) + "ms.");
+
+
 	}
 
 }
