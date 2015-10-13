@@ -28,19 +28,22 @@ public class OpenClient extends Thread {
 			return false;
 
 		Socket socket = socketList.get(pId);
-
-		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-		// put option
-		dOut.writeByte(0);
-		dOut.flush();
-
-		// key, value
-		dOut.writeUTF(key);
-		dOut.writeUTF(value);
-		dOut.flush();
-
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		boolean ack = dIn.readBoolean();
+		boolean ack;
+		synchronized(socket){
+			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+			// put option
+			dOut.writeByte(0);
+			dOut.flush();
+	
+			// key, value
+			dOut.writeUTF(key);
+			dOut.flush();
+			dOut.writeUTF(value);
+			dOut.flush();
+	
+			DataInputStream dIn = new DataInputStream(socket.getInputStream());
+			ack = dIn.readBoolean();
+		}
 
 		return ack;
 	}
@@ -51,19 +54,22 @@ public class OpenClient extends Thread {
 			return null;
 
 		Socket socket = socketList.get(pId);
-
-		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-
-		// get option
-		dOut.writeByte(1);
-		dOut.flush();
-
-		// key
-		dOut.writeUTF(key);
-		dOut.flush();
-
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		String value = dIn.readUTF();
+		
+		String value;
+		synchronized(socket){
+			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+	
+			// get option
+			dOut.writeByte(1);
+			dOut.flush();
+	
+			// key
+			dOut.writeUTF(key);
+			dOut.flush();
+	
+			DataInputStream dIn = new DataInputStream(socket.getInputStream());
+			value = dIn.readUTF();
+		}
 
 		return value;
 	}
@@ -74,19 +80,21 @@ public class OpenClient extends Thread {
 			return false;
 
 		Socket socket = socketList.get(pId);
-
-		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-
-		// put option
-		dOut.writeByte(2);
-		dOut.flush();
-
-		// key, value
-		dOut.writeUTF(key);
-		dOut.flush();
-
-		DataInputStream dIn = new DataInputStream(socket.getInputStream());
-		boolean ack = dIn.readBoolean();
+		boolean ack;
+		synchronized(socket){
+			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+	
+			// put option
+			dOut.writeByte(2);
+			dOut.flush();
+	
+			// key
+			dOut.writeUTF(key);
+			dOut.flush();
+	
+			DataInputStream dIn = new DataInputStream(socket.getInputStream());
+			ack = dIn.readBoolean();
+		}
 
 		return ack;
 	}
@@ -150,6 +158,7 @@ public class OpenClient extends Thread {
 			try {
 				delete(key, pId);
 			} catch (Exception e) {
+				//e.printStackTrace();
 				System.out
 						.println("Couldn't delete the key-value pair in the system.");
 			}
@@ -163,14 +172,6 @@ public class OpenClient extends Thread {
 
 		System.out.println("Client " + num + ": Overall time: "
 				+ (System.currentTimeMillis() - time) + "ms.");
-
-		for (Socket sock : socketList) {
-			try {
-				sock.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 }
