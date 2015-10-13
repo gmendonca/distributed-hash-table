@@ -102,8 +102,9 @@ public class OpenClient extends Thread {
 	public void run() {
 		long start, stop, time;
 		int pId;
-		String key, value;
-		boolean result;
+		String key;
+		//String value;
+		//boolean result;
 
 		start = time = System.currentTimeMillis();
 
@@ -113,8 +114,9 @@ public class OpenClient extends Thread {
 			pId = DistributedHashtable.hash(key, OpenBench.numPeers);
 
 			try {
-				result = put(key, UUID.randomUUID().toString(), pId);
-				System.out.println("put " + i + " " + result);
+				put(key, UUID.randomUUID().toString(), pId);
+				//result = put(key, UUID.randomUUID().toString(), pId);
+				//System.out.println("put " + i + " " + result);
 			} catch (Exception e) {
 				System.out
 						.println("Couldn't put the key-value pair in the system.");
@@ -135,8 +137,9 @@ public class OpenClient extends Thread {
 			pId = DistributedHashtable.hash(key, OpenBench.numPeers);
 
 			try {
-				value = get(key, pId);
-				System.out.println(value);
+				get(key, pId);
+				//value = get(key, pId);
+				//System.out.println(value);
 			} catch (Exception e) {
 				System.out
 						.println("Couldn't get the value pair from the system.");
@@ -157,8 +160,9 @@ public class OpenClient extends Thread {
 			pId = DistributedHashtable.hash(key, OpenBench.numPeers);
 
 			try {
-				result = delete(key, pId);
-				System.out.println("deleted " + i + " " + result);
+				delete(key, pId);
+				//result = delete(key, pId);
+				//System.out.println("deleted " + i + " " + result);
 			} catch (Exception e) {
 				//e.printStackTrace();
 				System.out
