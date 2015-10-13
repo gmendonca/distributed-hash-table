@@ -41,6 +41,10 @@ public class OpenBench {
 			// start server
 			OpenServer server = new OpenServer(serverSocket, peer);
 			server.start();
+			
+			//start assigning tasks
+			OpenAssign assign = new OpenAssign(peer);
+			assign.start();
 
 		}
 

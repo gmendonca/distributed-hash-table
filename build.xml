@@ -33,10 +33,10 @@
         </jar>
 
         <jar destfile="build/OpenBench.jar">
-          <fileset includes="node/*.class,bench/*.class,util/*.class" dir="bin/"/>
+          <fileset includes="node/*.class,bench/*.class,util/*.class,open/*class" dir="bin/"/>
           <zipgroupfileset includes="*.jar" dir="lib/"/>
           <manifest>
-            <attribute name="Main-Class" value="bench.OpenBench"/>
+            <attribute name="Main-Class" value="open.OpenBench"/>
           </manifest>
         </jar>
     </target>

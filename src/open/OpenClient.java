@@ -105,7 +105,7 @@ public class OpenClient extends Thread {
 
 			try {
 				put(key, UUID.randomUUID().toString(), pId);
-				// System.out.println("put " + i);
+				//System.out.println("put " + i);
 			} catch (Exception e) {
 				System.out
 						.println("Couldn't put the key-value pair in the system.");
