@@ -58,7 +58,7 @@ public class Task extends Thread {
 
 			}
 		} catch (Exception e) {
-			System.out.println("Nothing happened");
+			//System.out.println("Nothing happened");
 		}
 
 	}

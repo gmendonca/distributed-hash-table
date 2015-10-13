@@ -1,7 +1,6 @@
 package bench;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,17 +24,21 @@ public class Benchmarking {
 
 		int id;
 
-		String address = InetAddress.getLocalHost().getHostAddress();
-		// address = args[1];
-
-		int port;
-
 		operations = Integer.parseInt(args[0]);
 
 		int numClients = Integer.parseInt(args[1]);
-
+		
+		String[] peerAddress;
+		String address;
+		int port;
+		
+		
 		// Creating servers
-		for (id = 0, port = 13000; id < peerList.size(); id++, port++) {
+		for (id = 0; id < peerList.size(); id++) {
+			peerAddress = peerList.get(id).split(":");
+			address =  peerAddress[0];
+			port = Integer.parseInt(peerAddress[1]);
+			
 			Peer peer = new Peer(id, address, port);
 
 			ServerSocket serverSocket = new ServerSocket(port);
@@ -50,7 +53,11 @@ public class Benchmarking {
 		}
 
 		// checking if all are open
-		for (id = 0, port = 13000; id < peerList.size(); id++, port++) {
+		for (id = 0; id < peerList.size(); id++) {
+			peerAddress = peerList.get(id).split(":");
+			address =  peerAddress[0];
+			port = Integer.parseInt(peerAddress[1]);
+			
 			try {
 				System.out.println("Connecting to server " + address + ":"
 						+ port);

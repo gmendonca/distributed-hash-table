@@ -31,7 +31,7 @@ per task and the another one leaving the socket open all the time. The second ap
 faster, but I leave it there for evaluation purposes.
 
 For this project, I used a JSON as the config file, if is not on the `lib/` folder, you have to download the [JSON.simple](https://code.google.com/p/json-simple/) and put the jar file and put it there. For the Maven,
-is already on the Maven dependecies, so you don't need to worry about it.
+is already on the Maven dependencies, so you don't need to worry about it.
 
 After that, you can run the following commands to build your system:
 
