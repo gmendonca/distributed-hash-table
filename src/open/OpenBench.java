@@ -61,7 +61,6 @@ public class OpenBench {
 		}
 
 		ArrayList<Socket> socketList = new ArrayList<Socket>();
-		;
 
 		// checking if all are open
 		for (id = 0; id < peerList.size(); id++) {
