@@ -3,6 +3,7 @@ package remote;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -100,17 +101,24 @@ public class Client extends Thread {
 		int numPeers = peerList.size();
 		
 		if(args.length < 2){
-			System.out.println("Usage: java -jar build/RemoteClient.jar <Id> <Number of Operations>");
+			System.out.println("Usage: java -jar build/RemoteClient.jar <Number of Operations>");
 			return;
 		}
 		
-		int num = Integer.parseInt(args[0]);
-		if(num < 0 || num > peerList.size()){
-			System.out.println("Id should be positive and shouldn't be greater than the number provided in the config file!");
-			return;
+		String[] peerAddress;
+		String address;
+		int port;
+		
+		
+		int num = 0;
+		
+		for(int i = 0; i < peerList.size(); i++){
+			peerAddress = peerList.get(i).split(":");
+			if(Inet4Address.getLocalHost().getHostAddress().equals(peerAddress[0]))
+				num = i;
 		}
 		
-		int operations = Integer.parseInt(args[1]);
+		int operations = Integer.parseInt(args[0]);
 		if(operations < 0){
 			System.out.println("Number of operations should be a positive number!");
 			return;
@@ -118,9 +126,7 @@ public class Client extends Thread {
 		
 		ArrayList<Socket> socketList = new ArrayList<Socket>();
 		
-		String[] peerAddress;
-		String address;
-		int port;
+		System.out.println("Running as Client " + num);
 
 		int id;
 		// checking if all are open
