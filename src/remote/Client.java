@@ -100,7 +100,7 @@ public class Client extends Thread {
 		ArrayList<String> peerList = DistributedHashtable.readConfigFile();
 		int numPeers = peerList.size();
 		
-		if(args.length < 2){
+		if(args.length < 1){
 			System.out.println("Usage: java -jar build/RemoteClient.jar <Number of Operations>");
 			return;
 		}

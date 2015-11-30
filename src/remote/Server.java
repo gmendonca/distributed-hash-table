@@ -15,7 +15,7 @@ public class Server extends Thread {
 		
 		ArrayList<String> peerList = DistributedHashtable.readConfigFile();
 		
-		if(args.length < 1){
+		if(args.length > 1){
 			System.out.println("Usage: java -jar build/RemoteServer.jar");
 			return;
 		}
