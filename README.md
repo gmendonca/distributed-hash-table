@@ -59,9 +59,9 @@ run_bench - Run Benchmarking closing and opening the socket
 
 Or you can run the jar files like this:
 ```sh
-java -jar build/OpenBench.jar <PeerId> <Address> <Port>
+java -jar build/Client.jar <PeerId> <Address> <Port>
 
-java -jar build/OpenBench.jar <Number of operations> <Number of Clients>
+java -jar build/Benchmarking.jar <Number of operations> <Number of Clients>
 
 java -jar build/OpenBench.jar <Number of operations> <Number of Clients>
 ```
