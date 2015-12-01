@@ -33,26 +33,10 @@
         </jar>
 
         <jar destfile="build/OpenBench.jar">
-          <fileset includes="node/*.class,bench/*.class,util/*.class,open/*class" dir="bin/"/>
+          <fileset includes="node/*.class,bench/*.class,util/*.class,open/*.class" dir="bin/"/>
           <zipgroupfileset includes="*.jar" dir="lib/"/>
           <manifest>
             <attribute name="Main-Class" value="open.OpenBench"/>
-          </manifest>
-        </jar>
-        
-        <jar destfile="build/RemoteClient.jar">
-          <fileset includes="remote/*.class,util/*.class" dir="bin/"/>
-          <zipgroupfileset includes="*.jar" dir="lib/"/>
-          <manifest>
-            <attribute name="Main-Class" value="remote.Client"/>
-          </manifest>
-        </jar>
-        
-        <jar destfile="build/RemoteServer.jar">
-          <fileset includes="remote/*.class,util/*.class,node/*.class" dir="bin/"/>
-          <zipgroupfileset includes="*.jar" dir="lib/"/>
-          <manifest>
-            <attribute name="Main-Class" value="remote.Server"/>
           </manifest>
         </jar>
     </target>
